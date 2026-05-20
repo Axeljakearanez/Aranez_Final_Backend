@@ -1,4 +1,3 @@
-import config from '../config.json';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
@@ -6,6 +5,8 @@ import { Op } from 'sequelize';
 import sendEmail from '../helpers/send-email';
 import db from '../helpers/db';
 import Role from '../helpers/role';
+
+const secret = process.env.JWT_SECRET || 'dev-secret-key';
 
 export default {
   authenticate,
@@ -201,7 +202,7 @@ async function hash(password: any) {
 }
 
 function generateJwtToken(account: any) {
-    return jwt.sign({ sub: account.id, id: account.id }, config.secret, { expiresIn: '15m' });
+    return jwt.sign({ sub: account.id, id: account.id }, secret, { expiresIn: '15m' });
 }
 
 function generateRefreshToken(account: any, ipAddress: any) {
