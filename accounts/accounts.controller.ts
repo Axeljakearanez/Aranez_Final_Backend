@@ -66,14 +66,32 @@ function revokeToken(req: any, res: any, next: any) {
     const token = req.body.token || req.cookies.refreshToken;
     const ipAddress = req.ip;
 
-    if (!token) return res.status(400).json({ message: 'Token is required' });
+    if (!token) {
+        res.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            path: '/'
+        });
+
+        return res.status(400).json({ message: 'Token is required' });
+    }
 
     if (!req.user.ownsToken(token) && req.user.role !== Role.Admin) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
     accountService.revokeToken({ token, ipAddress })
-        .then(() => res.json({ message: 'Token revoked' }))
+        .then(() => {
+            res.clearCookie('refreshToken', {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+                path: '/'
+            });
+
+            res.json({ message: 'Token revoked' });
+        })
         .catch(next);
 }
 
@@ -228,7 +246,8 @@ function setTokenCookie(res: any, token: any) {
     httpOnly: true,
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' as const : 'lax' as const
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' as const : 'lax' as const,
+    path: '/'
   };
 
   res.cookie('refreshToken', token, cookieOptions);
