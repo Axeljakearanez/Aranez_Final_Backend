@@ -15,22 +15,45 @@ async function initialize() {
   const password = process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '';
   const database = process.env.MYSQLDATABASE || process.env.DB_NAME || 'node_mysql_api';
 
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  console.log('🔗 MySQL connection target:', {
+    host,
+    port,
+    user,
+    database,
+    ssl: isProduction ? 'enabled' : 'disabled'
+  });
+
   // create database if it doesn't exist
   const connection = await mysql.createConnection({
     host,
     port,
     user,
-    password
+    password,
+    ssl: isProduction
+      ? {
+          rejectUnauthorized: false
+        }
+      : undefined
   });
 
   await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
+  await connection.end();
 
   // connect to database
   const sequelize = new Sequelize(database, user, password, {
     host,
     port,
     dialect: 'mysql',
-    logging: false
+    logging: false,
+    dialectOptions: isProduction
+      ? {
+          ssl: {
+            rejectUnauthorized: false
+          }
+        }
+      : {}
   });
 
   // init models
