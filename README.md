@@ -4,11 +4,14 @@ This is the Node.js + TypeScript + MySQL backend API for the Full-Stack Authenti
 
 ## Live Links
 
+Frontend Live Application:  
+https://aranez-final-frontend.onrender.com
+
 Backend API:  
-https://aranezfinalbackend-production.up.railway.app
+https://aranez-final-backend.onrender.com
 
 Swagger API Documentation:  
-https://aranezfinalbackend-production.up.railway.app/api-docs
+https://aranez-final-backend.onrender.com/api-docs/
 
 Frontend Repository:  
 https://github.com/Axeljakearanez/Aranez_Lab7Activity
@@ -26,8 +29,9 @@ https://github.com/Axeljakearanez/Aranez_Final_Backend
 - JWT Authentication
 - Refresh Token Cookies
 - Swagger API Documentation
-- Railway Deployment
-- Railway MySQL Database
+- Render Web Service Deployment
+- Aiven MySQL Database
+- Mailtrap Email Testing
 
 ## Features
 
@@ -51,11 +55,13 @@ Required variables:
 NODE_ENV=production
 JWT_SECRET=
 CORS_ORIGIN=
+
 MYSQLHOST=
 MYSQLPORT=
 MYSQLUSER=
 MYSQLPASSWORD=
 MYSQLDATABASE=
+
 EMAIL_FROM=
 SMTP_HOST=
 SMTP_PORT=
