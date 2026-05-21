@@ -47,24 +47,26 @@ https://github.com/Axeljakearanez/Aranez_Final_Backend
 
 ## Environment Variables
 
+## Environment Variables
+
 This backend uses environment variables for security. Sensitive data such as JWT secrets, database passwords, and SMTP credentials are not hardcoded in the source code.
 
 Required variables:
 
 ```env
 NODE_ENV=production
-JWT_SECRET=
-CORS_ORIGIN=
+JWT_SECRET=your_jwt_secret
+CORS_ORIGIN=https://your-frontend-url.onrender.com
 
-MYSQLHOST=
-MYSQLPORT=
-MYSQLUSER=
-MYSQLPASSWORD=
-MYSQLDATABASE=
+MYSQLHOST=your_mysql_host
+MYSQLPORT=your_mysql_port
+MYSQLUSER=your_mysql_user
+MYSQLPASSWORD=your_mysql_password
+MYSQLDATABASE=your_mysql_database
 
-EMAIL_FROM=
-SMTP_HOST=
-SMTP_PORT=
-SMTP_USER=
-SMTP_PASS=
-SMTP_SECURE=
+EMAIL_FROM=your_email_from
+SMTP_HOST=your_smtp_host
+SMTP_PORT=2525
+SMTP_USER=your_smtp_user
+SMTP_PASS=your_smtp_password
+SMTP_SECURE=false
